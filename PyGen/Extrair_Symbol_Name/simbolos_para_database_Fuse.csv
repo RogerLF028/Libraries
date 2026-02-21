@@ -1,0 +1,7 @@
+"Symbol","Value","Footprint","Description","Tags","Footprint_Filter","Datasheet"
+"MyLib_Fuse:Fuse","Fuse","","Fuse","fuse","*Fuse*","~"
+"MyLib_Fuse:Fuse_Polarized","Fuse_Polarized","","Polarized fuse","fuse","*Fuse*","~"
+"MyLib_Fuse:Fuse_Polarized_Small","Fuse_Polarized_Small","","Polarized fuse, small symbol","fuse","*Fuse*","~"
+"MyLib_Fuse:Fuse_Small","Fuse_Small","","Fuse, small symbol","fuse","*Fuse*","~"
+"MyLib_Fuse:Polyfuse","Polyfuse","","Resettable fuse, polymeric positive temperature coefficient","resettable fuse PTC PPTC polyfuse polyswitch","*polyfuse* *PTC*","~"
+"MyLib_Fuse:Polyfuse_Small","Polyfuse_Small","","Resettable fuse, polymeric positive temperature coefficient, small symbol","resettable fuse PTC PPTC polyfuse polyswitch","*polyfuse* *PTC*","~"

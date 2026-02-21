@@ -1,0 +1,52 @@
+-- Inserções para a tabela Inductor_General (série SRF1260)
+-- Gerado em 2026-02-20 13:41:32.055999
+
+INSERT INTO Inductor_General (
+    MyPN,
+    Name,
+    Description,
+    Value,
+    Info1,
+    Info2,
+    Symbol,
+    Footprint,
+    Manufacturer,
+    Manufacturer_PN,
+    Family_Series,
+    Category,
+    Subcategory,
+    Mount,
+    Temperature_Range,
+    RoHS_Compliant,
+    Active,
+    Version,
+    Created_At,
+    Created_By,
+    Exclude_from_BOM,
+    Exclude_from_Board
+) VALUES
+('EL-IND-600100', 'IND_SRF1260_0.47u_17.6A', 'Dual Winding Shielded Power Inductor 0.47u 17.6A', '0.47u', '17.6A', '0R0053', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-R47Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600101', 'IND_SRF1260_1u_15A', 'Dual Winding Shielded Power Inductor 1u 15A', '1u', '15A', '0R0062', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-1R0Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600102', 'IND_SRF1260_1.5u_13.8A', 'Dual Winding Shielded Power Inductor 1.5u 13.8A', '1.5u', '13.8A', '0R0073', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-1R5Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600103', 'IND_SRF1260_2.2u_10.9A', 'Dual Winding Shielded Power Inductor 2.2u 10.9A', '2.2u', '10.9A', '0R0085', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-2R2Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600104', 'IND_SRF1260_3.3u_9.26A', 'Dual Winding Shielded Power Inductor 3.3u 9.26A', '3.3u', '9.26A', '0R0101', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-3R3Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600105', 'IND_SRF1260_4.7u_7.18A', 'Dual Winding Shielded Power Inductor 4.7u 7.18A', '4.7u', '7.18A', '0R0137', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-4R7Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600106', 'IND_SRF1260_6.8u_6.64A', 'Dual Winding Shielded Power Inductor 6.8u 6.64A', '6.8u', '6.64A', '0R0186', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-6R8Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600107', 'IND_SRF1260_8.2u_5.54A', 'Dual Winding Shielded Power Inductor 8.2u 5.54A', '8.2u', '5.54A', '0R0194', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-8R2Y', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600108', 'IND_SRF1260_10u_5.35A', 'Dual Winding Shielded Power Inductor 10u 5.35A', '10u', '5.35A', '0R0246', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-100M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600109', 'IND_SRF1260_15u_4.27A', 'Dual Winding Shielded Power Inductor 15u 4.27A', '15u', '4.27A', '0R0329', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-150M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600110', 'IND_SRF1260_22u_3.7A', 'Dual Winding Shielded Power Inductor 22u 3.7A', '22u', '3.7A', '0R0451', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-220M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600111', 'IND_SRF1260_33u_3.28A', 'Dual Winding Shielded Power Inductor 33u 3.28A', '33u', '3.28A', '0R0618', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-330M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600112', 'IND_SRF1260_47u_2.71A', 'Dual Winding Shielded Power Inductor 47u 2.71A', '47u', '2.71A', '0R086', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-470M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600113', 'IND_SRF1260_68u_2.22A', 'Dual Winding Shielded Power Inductor 68u 2.22A', '68u', '2.22A', '0R117', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-680M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600114', 'IND_SRF1260_82u_2.05A', 'Dual Winding Shielded Power Inductor 82u 2.05A', '82u', '2.05A', '0R15', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-820M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600115', 'IND_SRF1260_100u_1.78A', 'Dual Winding Shielded Power Inductor 100u 1.78A', '100u', '1.78A', '0R171', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-101M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600116', 'IND_SRF1260_150u_1.48A', 'Dual Winding Shielded Power Inductor 150u 1.48A', '150u', '1.48A', '0R254', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-151M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600117', 'IND_SRF1260_220u_1.19A', 'Dual Winding Shielded Power Inductor 220u 1.19A', '220u', '1.19A', '0R354', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-221M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600118', 'IND_SRF1260_330u_1.06A', 'Dual Winding Shielded Power Inductor 330u 1.06A', '330u', '1.06A', '0R574', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-331M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600119', 'IND_SRF1260_470u_0.87A', 'Dual Winding Shielded Power Inductor 470u 0.87A', '470u', '0.87A', '0R83', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-471M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600120', 'IND_SRF1260_680u_0.7A', 'Dual Winding Shielded Power Inductor 680u 0.7A', '680u', '0.7A', '1R212', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-681M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600121', 'IND_SRF1260_820u_0.6A', 'Dual Winding Shielded Power Inductor 820u 0.6A', '820u', '0.6A', '1R46', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-821M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0'),
+('EL-IND-600122', 'IND_SRF1260_1000u_0.57A', 'Dual Winding Shielded Power Inductor 1000u 0.57A', '1000u', '0.57A', '1R854', 'MyLib_Inductor:L_Coupled_1324', 'MyLib_Inductor_SMD:L_Bourns_SRF1260', 'Bourns', 'SRF1260-102M', 'SRF1260', 'Inductor', 'Power Inductor', 'SMD', '-40°C to +125°C', 'Yes', '1', '1', '2026-02-20 13:41:32', 'Rogerio Fontanario', '0', '0');
+
+-- Fim dos inserts
