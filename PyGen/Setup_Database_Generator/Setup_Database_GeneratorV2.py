@@ -153,6 +153,11 @@ class KiCadDBLGeneratorFromDB:
                 field_config["visible_in_chooser"] = True
                 field_config["show_name"] = False
                 # inherit_properties remains False (default)
+            if column in ["Package"]:
+                field_config["visible_on_add"] = False
+                field_config["visible_in_chooser"] = False
+                field_config["show_name"] = False
+                field_config["inherit_properties"]= True
             
             # For all other columns, keep default (inherit_properties = False)
             
