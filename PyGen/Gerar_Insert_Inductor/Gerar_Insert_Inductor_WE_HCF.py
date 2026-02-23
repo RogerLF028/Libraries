@@ -22,18 +22,41 @@ def sql_str(val):
     return "'" + str(val).replace("'", "''") + "'"
 
 def format_inductance(l):
-    """Formata indutância em µH como string com 'u' (ex: 0.7u, 10u, 1000u)."""
-    if l == int(l):
-        return f"{int(l)}u"
+    """
+    Formata indutância em µH para o formato desejado:
+    - Se l < 1: converte para nH (multiplica por 1000) e retorna como inteiro com "nH" (ex: 0.33 µH → "330nH")
+    - Se l >= 1:
+        - se l é inteiro: retorna f"{int(l)}uH" (ex: 10 µH → "10uH")
+        - senão: substitui ponto por 'u' e adiciona 'H' (ex: 3.3 µH → "3u3H")
+    """
+    if l < 1.0:
+        # Converte para nanohenries (1 µH = 1000 nH)
+        nh = int(round(l * 1000))
+        return f"{nh}nH"
     else:
-        return f"{l}u"
+        if l == int(l):
+            return f"{int(l)}uH"
+        else:
+            s = str(l)
+            return s.replace('.', 'u') + 'H'
 
 def format_current(i):
-    """Formata corrente em A como string com 'A' (ex: 54.7A)."""
-    if i == int(i):
-        return f"{int(i)}A"
+    """
+    Formata corrente em A para o formato desejado:
+    - Se i < 1: converte para mA e adiciona "mA" (ex: 0.73 A → "730mA")
+    - Se i >= 1: substitui o ponto por 'A' e não adiciona unidade extra
+                 (ex: 3.31 A → "3A31", 6.2 A → "6A2", 5 A → "5A")
+    """
+    if i < 1:
+        # Converte para mA (valor inteiro)
+        ma = int(round(i * 1000))
+        return f"{ma}mA"
     else:
-        return f"{i}A"
+        if i == int(i):
+            return f"{int(i)}A"
+        else:
+            s = str(i)
+            return s.replace('.', 'A')
 
 def format_dcr(r):
     """

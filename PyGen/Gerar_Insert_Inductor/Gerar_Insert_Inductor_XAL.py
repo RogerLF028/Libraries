@@ -22,19 +22,42 @@ def sql_str(val):
     return "'" + str(val).replace("'", "''") + "'"
 
 def format_inductance(l):
-    """Formata indutância em µH como string com 'u' (ex: 0.33u, 10u, 1000u)."""
-    if l == int(l):
-        return f"{int(l)}u"
+    """
+    Formata indutância em µH para o formato desejado:
+    - Se l < 1: converte para nH (multiplica por 1000) e retorna como inteiro com "nH" (ex: 0.33 µH → "330nH")
+    - Se l >= 1:
+        - se l é inteiro: retorna f"{int(l)}uH" (ex: 10 µH → "10uH")
+        - senão: substitui ponto por 'u' e adiciona 'H' (ex: 3.3 µH → "3u3H")
+    """
+    if l < 1.0:
+        # Converte para nanohenries (1 µH = 1000 nH)
+        nh = int(round(l * 1000))
+        return f"{nh}nH"
     else:
-        return f"{l}u"
-
+        if l == int(l):
+            return f"{int(l)}uH"
+        else:
+            s = str(l)
+            return s.replace('.', 'u') + 'H'
+        
 def format_current(i):
-    """Formata corrente em A como string com 'A' (ex: 6.2A)."""
-    if i == int(i):
-        return f"{int(i)}A"
+    """
+    Formata corrente em A para o formato desejado:
+    - Se i < 1: converte para mA e adiciona "mA" (ex: 0.73 A → "730mA")
+    - Se i >= 1: substitui o ponto por 'A' e não adiciona unidade extra
+                 (ex: 3.31 A → "3A31", 6.2 A → "6A2", 5 A → "5A")
+    """
+    if i < 1:
+        # Converte para mA (valor inteiro)
+        ma = int(round(i * 1000))
+        return f"{ma}mA"
     else:
-        return f"{i}A"
-
+        if i == int(i):
+            return f"{int(i)}A"
+        else:
+            s = str(i)
+            return s.replace('.', 'A')
+        
 def format_dcr(r):
     """
     Formata resistência DC usando 'R' como separador decimal.
@@ -59,7 +82,7 @@ dados_series = [
         ("XAL1510-153ME", 15.0, 0.00917, 18),
         ("XAL1510-223ME", 22.0, 0.0145, 14),
         ("XAL1510-333ME", 33.0, 0.0187, 12),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL1510"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL1510-153"),
     # XAL1010
     ("XAL1010", [
         ("XAL1010-221ME", 0.22, 0.00045, 55.5),
@@ -75,7 +98,7 @@ dados_series = [
         ("XAL1010-822ME", 8.2, 0.01170, 17.1),
         ("XAL1010-103ME", 10.0, 0.01340, 15.5),
         ("XAL1010-153ME", 15.0, 0.01690, 13.8),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL1010"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL1010-XXX"),
     # XAL7070
     ("XAL7070", [
         ("XAL7070-161ME", 0.16, 0.00075, 30.5),
@@ -98,7 +121,7 @@ dados_series = [
         ("XAL7070-223ME", 22.0, 0.03451, 4.7),
         ("XAL7070-333ME", 33.0, 0.05398, 3.6),
         ("XAL7070-473ME", 47.0, 0.08441, 3.1),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL7070"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL7070-XXX"),
     # XAL6030
     ("XAL6030", [
         ("XAL6030-181ME", 0.18, 0.00159, 32),
@@ -109,7 +132,7 @@ dados_series = [
         ("XAL6030-182ME", 1.8, 0.00957, 14),
         ("XAL6030-222ME", 2.2, 0.01270, 10),
         ("XAL6030-332ME", 3.3, 0.01992, 8.0),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL6030"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL6030-XXX"),
     # XAL6060
     ("XAL6060", [
         ("XAL6060-472ME", 4.7, 0.01310, 11),
@@ -120,7 +143,7 @@ dados_series = [
         ("XAL6060-153ME", 15.0, 0.03977, 6.0),
         ("XAL6060-223ME", 22.0, 0.05512, 5.0),
         ("XAL6060-333ME", 33.0, 0.09568, 3.6),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL6060"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL6060-XXX"),
     # XAL5030
     ("XAL5030", [
         ("XAL5030-161ME", 0.16, 0.00215, 22.2),
@@ -132,7 +155,7 @@ dados_series = [
         ("XAL5030-222ME", 2.2, 0.01320, 9.7),
         ("XAL5030-332ME", 3.3, 0.02120, 8.1),
         ("XAL5030-472ME", 4.7, 0.03600, 5.9),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL5030"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL5030-XXX"),
     # XAL5050
     ("XAL5050", [
         ("XAL5050-472ME", 4.7, 0.02195, 8.2),
@@ -142,7 +165,7 @@ dados_series = [
         ("XAL5050-103ME", 10.0, 0.04090, 4.9),
         ("XAL5050-153ME", 15.0, 0.06970, 3.9),
         ("XAL5050-223ME", 22.0, 0.09060, 3.4),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL5050"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL5050-XXX"),
     # XAL4020
     ("XAL4020", [
         ("XAL4020-221ME", 0.22, 0.00581, 16.8),
@@ -152,19 +175,19 @@ dados_series = [
         ("XAL4020-122ME", 1.2, 0.01775, 9.0),
         ("XAL4020-152ME", 1.5, 0.02145, 7.5),
         ("XAL4020-222ME", 2.2, 0.03520, 5.5),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL4020"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL4020-XXX"),
     # XAL4030
     ("XAL4030", [
         ("XAL4030-332ME", 3.3, 0.0260, 6.6),
         ("XAL4030-472ME", 4.7, 0.0401, 5.1),
         ("XAL4030-682ME", 6.8, 0.0674, 3.9),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL4030"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL4030-XXX"),
     # XAL4040
     ("XAL4040", [
         ("XAL4040-822ME", 8.2, 0.0608, 3.4),
         ("XAL4040-103ME", 10.0, 0.0840, 3.1),
         ("XAL4040-153ME", 15.0, 0.109, 2.8),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL4040"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL4040-XXX"),
     # XAL8080
     ("XAL8080", [
         ("XAL8080-681ME", 0.68, 0.00138, 37.0),
@@ -180,7 +203,7 @@ dados_series = [
         ("XAL8080-223ME", 22.0, 0.0296,   7.6),
         ("XAL8080-333ME", 33.0, 0.0437,   6.0),
         ("XAL8080-473ME", 47.0, 0.0647,   4.8),
-    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL8080"),
+    ], "MyLib_Inductor_SMD:L_Coilcraft_XAL8080-XXX"),
 ]
 
 # ==================== GERAÇÃO DO INSERT ====================

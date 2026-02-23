@@ -44,14 +44,6 @@ def add_prefix_to_footprint(footprint):
         return f"MyLib_{parts[0]}:{parts[1]}"
     return f"MyLib_{footprint}"
 
-def ensure_unit(value, unit):
-    if value is None or value == "":
-        return None
-    s = str(value).strip()
-    if s and not s[-1].isalpha():
-        return f"{s}{unit}"
-    return s
-
 def combine_min_max(min_val, max_val, unit=""):
     if min_val is None and max_val is None:
         return None
@@ -77,6 +69,110 @@ def combine_range_with_unit(min_val, max_val, unit):
     return None
 
 # =============================================================================
+# FUNÇÃO DE FORMATAÇÃO DE VALORES (TENSÃO, CORRENTE, POTÊNCIA, RESISTÊNCIA)
+# =============================================================================
+
+def format_value(value_str, unit):
+    """
+    Formata um valor numérico com a unidade fornecida.
+    - Se o valor já contém unidade (ex: "74000mA"), extrai e usa essa unidade.
+    - Normaliza unidades de resistência: "ohm", "Ω" -> "Ω"; "mohm", "mΩ" -> "mΩ".
+    - Se a unidade for "mA" e o valor >= 1000, converte para A.
+    - Se a unidade for "A" e o valor < 1, converte para mA (considerando sinal).
+    - Similar para W e mW.
+    - Para V, A, W: substitui ponto pela unidade (ex: 1.5V -> 1V5).
+    - Para Ω: usa R no lugar do ponto (ex: 2.7Ω -> 2R7).
+    - Para mΩ: usa 'm' antes da parte decimal e 'R' no final (ex: 28.5mΩ -> 28m5R).
+    """
+    if not value_str:
+        return ""
+    s = str(value_str).strip()
+    match = re.match(r"([+-]?\d*\.?\d+)(.*)", s)
+    if match:
+        num_str, unit_str = match.groups()
+        unit_str = unit_str.strip()
+        if unit_str:
+            unit = unit_str  # prioriza a unidade que veio
+    else:
+        num_str = s
+        unit_str = ""
+
+    try:
+        num = float(num_str)
+    except ValueError:
+        return s
+
+    # Normalização de unidades de resistência
+    unit_lower = unit.lower()
+    if unit_lower in ["ω", "ohm", "ohms"]:
+        unit = "Ω"
+    elif unit_lower in ["mω", "mohm", "mohms"]:
+        unit = "mΩ"
+    # (outras normalizações podem ser adicionadas)
+
+    # --- Conversões de unidades derivadas (mA, mW) para base (A, W) ---
+    if unit == "mA":
+        if abs(num) >= 1000:
+            num = num / 1000.0
+            unit = "A"
+        else:
+            # mantém em mA como inteiro
+            return f"{int(round(num))}mA"
+    elif unit == "mW":
+        if abs(num) >= 1000:
+            num = num / 1000.0
+            unit = "W"
+        else:
+            return f"{int(round(num))}mW"
+
+    # --- Heurística para valores sem unidade explícita ---
+    # Se não veio unidade, a unidade esperada é A, e o número é >=1000, assume que é mA e converte
+    if not unit_str and unit == "A" and abs(num) >= 1000:
+        num = num / 1000.0
+        # unit continua "A"
+
+    # --- Conversão de valores < 1 para mili (para unidades base) ---
+    if unit == "A" and abs(num) < 1:
+        new_num = int(round(num * 1000))
+        return f"{new_num}mA"
+    if unit == "W" and abs(num) < 1:
+        new_num = int(round(num * 1000))
+        return f"{new_num}mW"
+
+    # --- Formatação com substituição do ponto pela unidade ---
+    if unit in ["V", "A", "W"]:
+        if num.is_integer():
+            return f"{int(num)}{unit}"
+        else:
+            int_part = int(num)
+            dec_part = str(num).split('.')[1].rstrip('0')
+            if not dec_part:
+                return f"{int_part}{unit}"
+            return f"{int_part}{unit}{dec_part}"
+    elif unit == "Ω":
+        if num.is_integer():
+            return f"{int(num)}R"
+        else:
+            int_part = int(num)
+            dec_part = str(num).split('.')[1].rstrip('0')
+            if not dec_part:
+                return f"{int_part}R"
+            return f"{int_part}R{dec_part}"
+    elif unit == "mΩ":
+        if num.is_integer():
+            return f"{int(num)}mR"
+        else:
+            int_part = int(num)
+            dec_part = str(num).split('.')[1].rstrip('0')
+            if not dec_part:
+                return f"{int_part}mR"
+            # Formato: parte inteira + 'm' + parte decimal + 'R'
+            return f"{int_part}m{dec_part}R"
+    else:
+        # para unidades não tratadas, retorna a string original
+        return s
+
+# =============================================================================
 # FUNÇÃO PARA CONSTRUIR NAME, INFO1, INFO2
 # =============================================================================
 def build_name_and_info(row, tipo):
@@ -86,8 +182,8 @@ def build_name_and_info(row, tipo):
 
     if tipo == "BJT":
         polarity = row.get("Type", "").strip()
-        vceo = ensure_unit(row.get("VCEO"), "V") or ""
-        ic = ensure_unit(row.get("IC_Continuous"), "A") or ""
+        vceo = format_value(row.get("VCEO"), "V")
+        ic = format_value(row.get("IC_Continuous"), "A")
         parts = [pn]
         if polarity:
             parts.append(polarity)
@@ -105,13 +201,16 @@ def build_name_and_info(row, tipo):
     elif tipo == "FET":
         fet_type = row.get("FET_Type", "MOSFET").strip()
         channel = row.get("Channel", "").strip()
-        vds = ensure_unit(row.get("VDS"), "V") or ""
-        id_cont = ensure_unit(row.get("ID_Continuous"), "A") or ""
-        rds = ensure_unit(row.get("RDS_On"), "Ω") or ""
+        vds = format_value(row.get("VDS"), "V")
+        id_cont = format_value(row.get("ID_Continuous"), "A")
+        rds = format_value(row.get("RDS_On"), "Ω")
         parts = [pn]
-        type_channel = fet_type
+        # Remover "-Channel" do canal e concatenar com underscore
         if channel:
-            type_channel += f"-{channel}"
+            channel_clean = channel.replace("-Channel", "")
+            type_channel = f"{fet_type}_{channel_clean}"
+        else:
+            type_channel = fet_type
         parts.append(type_channel)
         if vds:
             parts.append(vds)
@@ -123,13 +222,13 @@ def build_name_and_info(row, tipo):
         info1 = type_channel
         info2 = f"{vds}-{id_cont}-{rds}".strip("-")
         q_type = fet_type
-        polarity_channel = channel
+        polarity_channel = channel_clean if channel else ""
         return name, info1, info2, q_type, polarity_channel
 
     elif tipo == "IGBT":
-        vce = ensure_unit(row.get("VCE"), "V") or ""
-        ic = ensure_unit(row.get("IC_Continuous"), "A") or ""
-        vcesat = ensure_unit(row.get("VCE_Sat"), "V") or ""
+        vce = format_value(row.get("VCE"), "V")
+        ic = format_value(row.get("IC_Continuous"), "A")
+        vcesat = format_value(row.get("VCE_Sat"), "V")
         parts = [pn, "IGBT-N"]
         if vce:
             parts.append(vce)
@@ -147,8 +246,8 @@ def build_name_and_info(row, tipo):
     else:  # General
         dev_type = row.get("Device_Type", "").strip()
         polarity = row.get("Subtype", "").strip()
-        vce = ensure_unit(row.get("VCE"), "V") or ""
-        ic = ensure_unit(row.get("IC_Continuous"), "A") or ""
+        vce = format_value(row.get("VCE"), "V")
+        ic = format_value(row.get("IC_Continuous"), "A")
         parts = [pn]
         if dev_type:
             parts.append(dev_type)
@@ -166,7 +265,7 @@ def build_name_and_info(row, tipo):
         return name, info1, info2, q_type, polarity_channel
 
 # =============================================================================
-# COLUNAS COMUNS A TODOS OS TRANSISTORES (EXISTENTES NA TABELA)
+# COLUNAS COMUNS A TODOS OS TRANSISTORES
 # =============================================================================
 BASE_COLUMNS = [
     "MyPN", "Name", "Description", "Value", "Info1", "Info2",
@@ -182,7 +281,7 @@ BASE_COLUMNS = [
 ]
 
 # =============================================================================
-# COLUNAS ESPECÍFICAS PARA CADA TIPO (APENAS AS QUE EXISTEM NA TABELA)
+# COLUNAS ESPECÍFICAS PARA CADA TIPO
 # =============================================================================
 BJT_EXTRA = [
     "VCEO", "Current_Collector", "DC_Gain_HFE", "VCE_Sat",
@@ -194,7 +293,6 @@ FET_EXTRA = [
     "Input_Capacitance", "Output_Capacitance", "Reverse_Transfer_Capacitance",
     "Gate_Charge", "Rise_Time", "Fall_Time", "Diode_Forward_Voltage",
     "IDSS", "Gate_Reverse_Current", "Power_Dissipation", "Junction_Temperature",
-    # Opcionais para JFET:
     "VGS_Off", "Gain"
 ]
 
@@ -247,7 +345,7 @@ def process_csv(csv_path, table_name, tipo, base_counter, extra_columns):
         values["MyPN"] = mypn
         values["Name"] = name
         values["Description"] = row.get("Description")
-        values["Value"] = row.get("Value")
+        values["Value"] = row.get("Name")
         values["Info1"] = info1
         values["Info2"] = info2
         values["Symbol"] = row.get("Symbol")
@@ -301,51 +399,50 @@ def process_csv(csv_path, table_name, tipo, base_counter, extra_columns):
 
         # Campos específicos
         if tipo == "BJT":
-            values["VCEO"] = ensure_unit(row.get("VCEO"), "V")
-            values["Current_Collector"] = ensure_unit(row.get("IC_Continuous"), "A")
+            values["VCEO"] = format_value(row.get("VCEO"), "V")
+            values["Current_Collector"] = format_value(row.get("IC_Continuous"), "A")
             values["DC_Gain_HFE"] = combine_min_max(row.get("HFE_Min"), row.get("HFE_Max"))
-            values["VCE_Sat"] = ensure_unit(row.get("VCE_Sat_Max"), "V")
-            values["Transition_Frequency"] = ensure_unit(row.get("FT"), "MHz")
-            values["IC_Pulse"] = ensure_unit(row.get("IC_Peak"), "A")
-            values["Power_Dissipation"] = ensure_unit(row.get("Power_Total"), "W")
-            values["Junction_Temperature"] = row.get("Operating_Temp")
+            values["VCE_Sat"] = format_value(row.get("VCE_Sat_Max"), "V")
+            values["Transition_Frequency"] = format_value(row.get("FT"), "MHz")
+            values["IC_Pulse"] = format_value(row.get("IC_Peak"), "A")
+            values["Power_Dissipation"] = format_value(row.get("Power_Total"), "W")
+            values["Junction_Temperature"] = row.get("Operating_Temp")  # sem formatação especial
 
         elif tipo == "FET":
-            values["VDS_Max"] = ensure_unit(row.get("VDS"), "V")
-            values["VGS_Max"] = ensure_unit(row.get("VGS"), "V")
-            values["VGS_Threshold"] = ensure_unit(row.get("VGS_Threshold"), "V")
-            values["RDS_On"] = ensure_unit(row.get("RDS_On"), "Ω")
-            values["ID_Continuous"] = ensure_unit(row.get("ID_Continuous"), "A")
-            values["ID_Pulse"] = ensure_unit(row.get("ID_Pulse"), "A")
-            values["Input_Capacitance"] = ensure_unit(row.get("Input_Capacitance"), "pF")
-            values["Output_Capacitance"] = ensure_unit(row.get("Output_Capacitance"), "pF")
-            values["Reverse_Transfer_Capacitance"] = ensure_unit(row.get("Reverse_Capacitance"), "pF")
-            values["Gate_Charge"] = ensure_unit(row.get("Gate_Charge_Total"), "nC")
-            values["Rise_Time"] = ensure_unit(row.get("Rise_Time"), "ns")
-            values["Fall_Time"] = ensure_unit(row.get("Fall_Time"), "ns")
-            values["Diode_Forward_Voltage"] = ensure_unit(row.get("Diode_Forward_Voltage"), "V")
-            values["IDSS"] = ensure_unit(row.get("IDSS"), "A")
-            values["Gate_Reverse_Current"] = ensure_unit(row.get("IGSS"), "A")  # IGSS -> Gate_Reverse_Current
-            values["Power_Dissipation"] = ensure_unit(row.get("Power_Total"), "W")
+            values["VDS_Max"] = format_value(row.get("VDS"), "V")
+            values["VGS_Max"] = format_value(row.get("VGS"), "V")
+            values["VGS_Threshold"] = format_value(row.get("VGS_Threshold"), "V")
+            values["RDS_On"] = format_value(row.get("RDS_On"), "Ω")
+            values["ID_Continuous"] = format_value(row.get("ID_Continuous"), "A")
+            values["ID_Pulse"] = format_value(row.get("ID_Pulse"), "A")
+            values["Input_Capacitance"] = format_value(row.get("Input_Capacitance"), "pF")
+            values["Output_Capacitance"] = format_value(row.get("Output_Capacitance"), "pF")
+            values["Reverse_Transfer_Capacitance"] = format_value(row.get("Reverse_Capacitance"), "pF")
+            values["Gate_Charge"] = format_value(row.get("Gate_Charge_Total"), "nC")
+            values["Rise_Time"] = format_value(row.get("Rise_Time"), "ns")
+            values["Fall_Time"] = format_value(row.get("Fall_Time"), "ns")
+            values["Diode_Forward_Voltage"] = format_value(row.get("Diode_Forward_Voltage"), "V")
+            values["IDSS"] = format_value(row.get("IDSS"), "A")
+            values["Gate_Reverse_Current"] = format_value(row.get("IGSS"), "A")
+            values["Power_Dissipation"] = format_value(row.get("Power_Total"), "W")
             values["Junction_Temperature"] = row.get("Operating_Temp")
-            # Opcionais JFET
-            values["VGS_Off"] = ensure_unit(row.get("VGS_Off"), "V")
-            values["Gain"] = ensure_unit(row.get("Gain"), "")
+            values["VGS_Off"] = format_value(row.get("VGS_Off"), "V")
+            values["Gain"] = format_value(row.get("Gain"), "")
 
         elif tipo == "IGBT":
-            values["VCEO"] = ensure_unit(row.get("VCE"), "V")
-            values["VGE_Threshold"] = ensure_unit(row.get("VGE"), "V")
-            values["IC_Continuous"] = ensure_unit(row.get("IC_Continuous"), "A")
-            values["IC_Pulse"] = ensure_unit(row.get("IC_Pulse"), "A")
-            values["VCE_Sat"] = ensure_unit(row.get("VCE_Sat"), "V")
-            values["Power_Dissipation"] = ensure_unit(row.get("Power_Total"), "W")
+            values["VCEO"] = format_value(row.get("VCE"), "V")
+            values["VGE_Threshold"] = format_value(row.get("VGE"), "V")
+            values["IC_Continuous"] = format_value(row.get("IC_Continuous"), "A")
+            values["IC_Pulse"] = format_value(row.get("IC_Pulse"), "A")
+            values["VCE_Sat"] = format_value(row.get("VCE_Sat"), "V")
+            values["Power_Dissipation"] = format_value(row.get("Power_Total"), "W")
             values["Junction_Temperature"] = row.get("Operating_Temp")
 
         elif tipo == "OTHER":  # General
-            values["VCEO"] = ensure_unit(row.get("VCE"), "V")
-            values["IC_Continuous"] = ensure_unit(row.get("IC_Continuous"), "A")
-            values["DC_Gain_HFE"] = ensure_unit(row.get("HFE"), "")
-            values["Power_Dissipation"] = ensure_unit(row.get("Power_Total"), "W")
+            values["VCEO"] = format_value(row.get("VCE"), "V")
+            values["IC_Continuous"] = format_value(row.get("IC_Continuous"), "A")
+            values["DC_Gain_HFE"] = format_value(row.get("HFE"), "")
+            values["Power_Dissipation"] = format_value(row.get("Power_Total"), "W")
             values["Junction_Temperature"] = row.get("Operating_Temp")
 
         values_lines.append(values)
@@ -415,7 +512,7 @@ def main():
                     name, info1, info2, q_type, polarity = build_name_and_info(row, "IGBT")
                     mypn = f"{MYPN_PREFIX}{BASE_COUNTER['IGBT'] + len(igbt_values):06d}"
                     values = create_row(BASE_COLUMNS + IGBT_EXTRA)
-                    # Preencher campos (código de preenchimento - pode ser simplificado com função)
+                    # Preencher campos (código similar ao process_csv)
                     values["MyPN"] = mypn
                     values["Name"] = name
                     values["Description"] = row.get("Description")
@@ -459,12 +556,12 @@ def main():
                     values["Q_Type"] = q_type
                     values["Polarity_Channel_Type"] = polarity
                     # IGBT extras
-                    values["VCEO"] = ensure_unit(row.get("VCE"), "V")
-                    values["VGE_Threshold"] = ensure_unit(row.get("VGE"), "V")
-                    values["IC_Continuous"] = ensure_unit(row.get("IC_Continuous"), "A")
-                    values["IC_Pulse"] = ensure_unit(row.get("IC_Pulse"), "A")
-                    values["VCE_Sat"] = ensure_unit(row.get("VCE_Sat"), "V")
-                    values["Power_Dissipation"] = ensure_unit(row.get("Power_Total"), "W")
+                    values["VCEO"] = format_value(row.get("VCE"), "V")
+                    values["VGE_Threshold"] = format_value(row.get("VGE"), "V")
+                    values["IC_Continuous"] = format_value(row.get("IC_Continuous"), "A")
+                    values["IC_Pulse"] = format_value(row.get("IC_Pulse"), "A")
+                    values["VCE_Sat"] = format_value(row.get("VCE_Sat"), "V")
+                    values["Power_Dissipation"] = format_value(row.get("Power_Total"), "W")
                     values["Junction_Temperature"] = row.get("Operating_Temp")
                     igbt_values.append(values)
                 else:
@@ -472,7 +569,7 @@ def main():
                     name, info1, info2, q_type, polarity = build_name_and_info(row, "General")
                     mypn = f"{MYPN_PREFIX}{BASE_COUNTER['General'] + len(general_values):06d}"
                     values = create_row(BASE_COLUMNS + GENERAL_EXTRA)
-                    # Preencher campos (idêntico ao IGBT, mas com GENERAL_EXTRA)
+                    # Preencher campos (similar)
                     values["MyPN"] = mypn
                     values["Name"] = name
                     values["Description"] = row.get("Description")
@@ -516,10 +613,10 @@ def main():
                     values["Q_Type"] = q_type
                     values["Polarity_Channel_Type"] = polarity
                     # General extras
-                    values["VCEO"] = ensure_unit(row.get("VCE"), "V")
-                    values["IC_Continuous"] = ensure_unit(row.get("IC_Continuous"), "A")
-                    values["DC_Gain_HFE"] = ensure_unit(row.get("HFE"), "")
-                    values["Power_Dissipation"] = ensure_unit(row.get("Power_Total"), "W")
+                    values["VCEO"] = format_value(row.get("VCE"), "V")
+                    values["IC_Continuous"] = format_value(row.get("IC_Continuous"), "A")
+                    values["DC_Gain_HFE"] = format_value(row.get("HFE"), "")
+                    values["Power_Dissipation"] = format_value(row.get("Power_Total"), "W")
                     values["Junction_Temperature"] = row.get("Operating_Temp")
                     general_values.append(values)
 

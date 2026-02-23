@@ -57,17 +57,28 @@ def safe_float(val):
         return None
 
 def format_current(val):
-    """Formata o valor da corrente para o nome, removendo .0 se inteiro."""
+    """
+    Formata o valor da corrente:
+    - Se valor < 1: converte para mA (multiplica por 1000, arredonda) e retorna "XmA".
+    - Se valor >= 1 e inteiro: retorna "XA".
+    - Se valor >= 1 e decimal: substitui o ponto por 'A' (ex: 1.5 -> "1A5").
+    """
     try:
         f = float(val)
-        if f.is_integer():
-            return f"{int(f)}A"
+        if f < 1.0:
+            ma = int(round(f * 1000))
+            return f"{ma}mA"
         else:
-            # Remove zeros desnecessários
-            s = f"{f:.1f}".rstrip('0').rstrip('.') if '.' in f"{f:.1f}" else f"{f:.1f}"
-            return f"{s}A"
+            if f.is_integer():
+                return f"{int(f)}A"
+            else:
+                s = f"{f:.3f}".rstrip('0').rstrip('.')
+                if '.' in s:
+                    return s.replace('.', 'A')
+                else:
+                    return f"{s}A"
     except:
-        return f"{val}A"
+        return str(val)
 
 def generate_insert(output_path=None, start_id=900001):
     # Série MF-RG (dados extraídos da primeira imagem)
@@ -226,17 +237,20 @@ def generate_insert(output_path=None, start_id=900001):
     for model_data in all_models:
         model = model_data['model']
         ihold = model_data['ihold']
+        itrip = model_data['itrip']
+        ihold_fmt = format_current(ihold)
+        itrip_fmt = format_current(itrip)
 
         # Determinar família
         if model.startswith('MF-RG'):
             family = 'MF-RG'
-            desc = f"PTC Resettable Fuse, {model}, {ihold}A hold, {model_data['vmax']}V"
+            desc = f"PTC Resettable Fuse, {model}, {ihold_fmt} hold, {model_data['vmax']}V"
         elif model.startswith('MF-RHT'):
             family = 'MF-RHT'
-            desc = f"PTC Resettable Fuse, {model}, {ihold}A hold, {model_data['vmax']}V"
+            desc = f"PTC Resettable Fuse, {model}, {ihold_fmt} hold, {model_data['vmax']}V"
         elif model.startswith('MF-SM'):
             family = 'MF-SM'
-            desc = f"PTC Resettable Fuse, {model}, {ihold}A hold, {model_data['vmax']}V"
+            desc = f"PTC Resettable Fuse, {model}, {ihold_fmt} hold, {model_data['vmax']}V"
         else:
             family = 'Bourns PTC'
             desc = f"PTC Resettable Fuse {model}"
@@ -258,9 +272,8 @@ def generate_insert(output_path=None, start_id=900001):
         if not footprint:
             print(f"Aviso: Nenhum footprint definido para o modelo {model}. O valor será NULL.")
 
-        # Name no formato "FUSE_<modelo>_<Ihold>A"
-        current_str = format_current(ihold)
-        name = f"FUSE_{model}_{current_str}"
+        # Name no formato "FUSE_<modelo>_<Ihold_formatado>"
+        name = f"FUSE_{model}_{ihold_fmt}"
 
         # Value = modelo
         value = model
@@ -271,16 +284,16 @@ def generate_insert(output_path=None, start_id=900001):
 
         # Campos específicos
         voltage_rating = f"{model_data['vmax']} V"
-        current_rating = f"{ihold} A"
-        hold_current = f"{ihold} A"
-        trip_current = f"{model_data['itrip']} A"
+        current_rating = ihold_fmt
+        hold_current = ihold_fmt
+        trip_current = itrip_fmt
         resistance = f"{model_data['r_min']} ~ {model_data['r1_max']} Ohm"
         power_diss = f"{model_data['power_diss']} W"
         response_time = f"{model_data['time_trip_sec']} s at {model_data['time_trip_amps']} A"
         interrupting_rating = f"{model_data['imax']} A"
 
         # Notas
-        notes = f"Trip current: {model_data['itrip']}A; Time to trip: {model_data['time_trip_sec']}s at {model_data['time_trip_amps']}A; Power dissipation: {model_data['power_diss']}W"
+        notes = f"Trip current: {itrip_fmt}; Time to trip: {model_data['time_trip_sec']}s at {model_data['time_trip_amps']}A; Power dissipation: {model_data['power_diss']}W"
 
         # Criar dicionário com os campos preenchidos
         data = {

@@ -33,6 +33,14 @@ def format_voltage(v):
         return f"{int(v)}V"
     else:
         return f"{v}V"
+    
+def format_voltage_display(v):
+    """Formata tensão para exibição: 6.3V → '6V3', 10V → '10V', etc."""
+    if v == int(v):
+        return f"{int(v)}V"
+    else:
+        # Converte para string e troca o ponto por 'V'
+        return str(v).replace('.', 'V')
 
 def get_footprint_smd(case_size):
     """Mapeia case size para footprint SMD conforme lista fornecida."""
@@ -168,7 +176,8 @@ for part, v, c, case, tan, leak, ripple in uwt_data:
     contador += 1
     footprint = get_footprint_smd(case)
     cap_str = format_capacitance(c)
-    volt_str = format_voltage(v)
+    #volt_str = format_voltage(v)
+    volt_str = format_voltage_display(v)   # Ex: 6.3V → "6V3"
     name = f"CAP_POL_{cap_str}F_{volt_str}_SMD"
     description = f"Aluminum Electrolytic Capacitor {cap_str} {volt_str}"
     value = cap_str

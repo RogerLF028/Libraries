@@ -345,7 +345,7 @@ def get_project_paths():
         'pygen_dir': pygen_dir,
         'libraries_dir': libraries_dir,
         'database_setup_dir': os.path.join(libraries_dir, 'Database_Setup'),
-        'database_file': os.path.join(libraries_dir, 'Library', '1_Database_Library', 'MyKiCadDB.sqlite')
+        'database_file': os.path.join(libraries_dir, 'Library', '1_Database_Library', 'MyKiCadLibDatabase.sqlite')
     }
     
     return paths

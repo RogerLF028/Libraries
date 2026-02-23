@@ -31,7 +31,6 @@ OUTPUT_FILES = {
 }
 
 # Lista fixa de colunas na ordem em que aparecerão no INSERT
-# (baseada nas colunas da tabela que podem ser preenchidas)
 COLUNAS = [
     'MyPN', 'Name', 'Description', 'Value', 'Info1', 'Info2',
     'Symbol', 'Footprint', 'Footprint_Filter', 'Datasheet', 'Notes',
@@ -61,46 +60,72 @@ def sql_str(val):
         return 'NULL'
     return "'" + str(val).replace("'", "''") + "'"
 
+def format_voltage_display(v_str):
+    """
+    Converte uma string representando tensão (ex: "12", "5.1", "12V", "5.1V")
+    para o formato de exibição: inteiros -> "12V", decimais -> "5V1".
+    Se v_str for vazio ou None, retorna string vazia.
+    """
+    if not v_str:
+        return ""
+    # Remove espaços e unidade 'V' se presente
+    s = v_str.strip().upper().replace('V', '').strip()
+    if not s:
+        return ""
+    try:
+        v = float(s)
+        if v == int(v):
+            return f"{int(v)}V"
+        else:
+            # Converte para string sem notação científica e substitui ponto por 'V'
+            s_num = str(v).rstrip('0').rstrip('.') if '.' in str(v) else str(v)
+            if '.' in s_num:
+                return s_num.replace('.', 'V')
+            else:
+                return f"{s_num}V"
+    except ValueError:
+        # Se não for número, retorna original (caso raro)
+        return v_str
+
 def generate_name(row, cat):
-    """Gera o campo Name personalizado conforme o tipo."""
+    """Gera o campo Name personalizado conforme o tipo, com tensões formatadas."""
     value = row.get('Value', '').strip()
     typ = row.get('Type', '').strip()
     package = row.get('Package', '').strip()
     pkg_clean = re.sub(r'[^a-zA-Z0-9]', '', package) if package else ''
 
     if cat == 'zener':
-        bv = row.get('Breakdown_Voltage', '').strip()
+        bv = format_voltage_display(row.get('Breakdown_Voltage', ''))
         pd = row.get('Power_Dissipation', '').strip()
         return f"{value}_Zener_{bv}_{pd}_{pkg_clean}"
     elif cat == 'tvs':
-        sv = row.get('Standoff_Voltage', '').strip()
+        sv = format_voltage_display(row.get('Standoff_Voltage', ''))
         pd = row.get('Power_Dissipation', '').strip()
         return f"{value}_TVS_{sv}_{pd}_{pkg_clean}"
     elif cat == 'schottky':
-        rv = row.get('Reverse_Voltage', '').strip()
+        rv = format_voltage_display(row.get('Reverse_Voltage', ''))
         fc = row.get('Forward_Current', '').strip()
         return f"{value}_Schottky_{rv}_{fc}_{pkg_clean}"
     else:  # general
-        rv = row.get('Reverse_Voltage', '').strip()
-        fc = row.get('Forward_Current', '').strip()
+        rv = format_voltage_display(row.get('Reverse_Voltage', ''))
         if not rv:
-            rv = row.get('Breakdown_Voltage', '').strip()
+            rv = format_voltage_display(row.get('Breakdown_Voltage', ''))
+        fc = row.get('Forward_Current', '').strip()
         return f"{value}_{typ}_{rv}_{fc}_{pkg_clean}"
 
 def get_info1_info2(row, cat):
     """
-    Retorna uma tupla (info1, info2) conforme as regras do arquivo de instruções.
+    Retorna uma tupla (info1, info2) conforme as regras, com tensões formatadas.
     """
-    typ = row.get('Type', '').strip()
     if cat == 'zener':
-        info1 = row.get('Breakdown_Voltage', '').strip()
+        info1 = format_voltage_display(row.get('Breakdown_Voltage', ''))
         info2 = row.get('Power_Dissipation', '').strip()
     elif cat == 'tvs':
-        info1 = row.get('Standoff_Voltage', '').strip()
+        info1 = format_voltage_display(row.get('Standoff_Voltage', ''))
         info2 = None  # Peak_Pulse_Current não disponível
     else:  # general e schottky
-        info1 = row.get('Forward_Current', '').strip()
-        info2 = row.get('Reverse_Voltage', '').strip()  # opcional
+        info1 = row.get('Forward_Current', '').strip()  # corrente (não formata)
+        info2 = format_voltage_display(row.get('Reverse_Voltage', ''))  # tensão opcional
     return info1, info2
 
 # ==================== LEITURA DO CSV ====================
@@ -231,7 +256,7 @@ for cat, linhas in categorias.items():
             if min_t and max_t:
                 valores['Temperature_Range'] = f"{min_t} to {max_t}"
 
-            # Voltage_Rating
+            # Voltage_Rating (numérico, sem formatação)
             if cat == 'zener':
                 v_rating = bv
             elif cat == 'tvs':
@@ -252,7 +277,7 @@ for cat, linhas in categorias.items():
             if p_rating:
                 valores['Power_Rating'] = p_rating
 
-            # Zener_Voltage
+            # Zener_Voltage (numérico)
             if cat == 'zener' and bv:
                 valores['Zener_Voltage'] = bv
 

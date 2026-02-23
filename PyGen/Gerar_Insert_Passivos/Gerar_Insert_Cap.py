@@ -199,14 +199,14 @@ def main():
             name = f"CAP_{size}_{cap_str}F_{tolerance}_{dielectric}_{voltage}V"
             description = f"Capacitor Ceramic SMD {size} {cap_str}F {tolerance} {voltage}V {dielectric}"
             value = cap_str
-            info1 = f"{tolerance}-{dielectric}"
-            info2 = f"{voltage}V"
+            info2 = f"{tolerance}{dielectric}"
+            info1 = f"{voltage}V"
             mypn = f"EL-CAP-{mypn_counter:06d}"
             mypn_counter +=1
             mfg_pn = generate_yageo_pn(size, dielectric, cap_pF, voltage, tolerance)
 
             metric = METRIC_CODES[size]
-            footprint = f"myLib_Capacitor_SMD:C_{size}_{metric}Metric"
+            footprint = f"MyLib_Capacitor_SMD:C_{size}_{metric}Metric"
             footprint_filter = f"C_{size}*"
 
             # Seleciona o link do datasheet correto
@@ -224,7 +224,7 @@ def main():
 
             values = [
                 mypn, name, description, value, info1, info2,
-                "myLib_Capacitor:CAP_US", footprint, footprint_filter, datasheet_url,
+                "MyLib_Capacitor:CAP_US", footprint, footprint_filter, datasheet_url,
                 "Yageo", mfg_pn,
                 "Capacitor", "Ceramic", size, "SMD",
                 temp_range, "Yes", "Yes",

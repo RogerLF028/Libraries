@@ -51,14 +51,92 @@ def clean_contact_form(contact_form):
     cleaned = re.sub(r'\s*\([^)]*\)', '', contact_form).strip()
     return cleaned
 
+
+
 def clean_coil_voltage(coil_voltage):
     """
-    Remove espaços da string de tensão da bobina.
-    Ex: "12V DC" -> "12VDC"
+    Formata a string de tensão da bobina:
+    - Remove espaços.
+    - Se houver um número decimal (ex: 4.5), substitui o ponto por 'V' e junta com o restante.
+    - Se não houver decimal, apenas remove espaços.
+    Exemplos:
+        "4.5V DC"   -> "4V5DC"
+        "12V DC"    -> "12VDC"
+        "24V AC"    -> "24VAC"
+        "5V"        -> "5V"
     """
     if not coil_voltage:
         return ''
-    return coil_voltage.replace(' ', '')
+    # Remove espaços primeiro para facilitar
+    s = coil_voltage.replace(' ', '')
+    # Procura por padrão: número (com possível ponto decimal) seguido de letras
+    # Ex: "4.5VDC" -> grupos: ('4.5', 'VDC')
+    match = re.match(r'^(\d*\.?\d+)([A-Za-z].*)$', s)
+    if match:
+        num_str, rest = match.groups()
+        if '.' in num_str:
+            # Divide parte inteira e decimal
+            int_part, dec_part = num_str.split('.')
+            # Monta novo formato: inteiro + 'V' + decimal + restante
+            # (o 'V' original já está em 'rest', então precisamos remover o primeiro V de rest? Não, porque rest começa com V)
+            # Ex: "4.5VDC" -> num_str="4.5", rest="VDC". Queremos "4V5DC". O 'V' original está em rest, então usamos int_part + 'V' + dec_part + rest[1:]?
+            # Mas cuidado: rest pode ser "VDC", "VAC", etc. O primeiro caractere é 'V'. Precisamos remover esse 'V' para não duplicar.
+            if rest.startswith('V'):
+                # Remove o primeiro V para depois adicionar o nosso
+                rest_sem_v = rest[1:]
+                return f"{int_part}V{dec_part}{rest_sem_v}"
+            else:
+                # Caso raro: se não começar com V, apenas concatena
+                return f"{int_part}V{dec_part}{rest}"
+        else:
+            # Sem ponto decimal: retorna a string sem espaços (já feito)
+            return s
+    else:
+        # Se não encaixar no padrão, retorna a string sem espaços
+        return s
+
+
+def extrair_float_de_corrente(valor_str):
+    """
+    Extrai o valor numérico (float) de uma string contendo uma corrente,
+    como '2.5A' ou '0.25A'. Remove a unidade e converte para float.
+    Retorna None se nenhum número for encontrado.
+    """
+    if not valor_str or not isinstance(valor_str, str):
+        return None
+    # Expressão regular para capturar o primeiro número decimal
+    # Aceita sinal opcional, parte inteira e/ou fracionária
+    padrao = r"[-+]?\d*\.?\d+"
+    match = re.search(padrao, valor_str)
+    if match:
+        try:
+            return float(match.group())
+        except ValueError:
+            return None
+    return None
+
+def format_current(valstr):
+    """Formata o valor da corrente para o nome, com mA para valores <1A e substituição do ponto por A para >=1A."""
+    val = extrair_float_de_corrente(valstr)
+
+    try:
+        f = float(val)
+        if f < 1.0:
+            # Converte para mA
+            ma = int(round(f * 1000))
+            return f"{ma}mA"
+        else:
+            if f.is_integer():
+                return f"{int(f)}A"
+            else:
+                # Converter para string sem zeros extras, substituir ponto por A
+                s = f"{f:.3f}".rstrip('0').rstrip('.')
+                if '.' in s:
+                    return s.replace('.', 'A')
+                else:
+                    return f"{s}A"
+    except:
+        return str(val)
 
 def format_temperature_range(min_temp, max_temp):
     if min_temp and max_temp:
@@ -140,7 +218,9 @@ with open(CSV_FILE, mode='r', encoding='utf-8') as f:
         original_name = get_val(row, 'Name')
         tipo = extract_type_from_name(original_name)
         contact_current = get_val(row, 'Contact_Current') or ''
-        name_parts = [tipo, cleaned_contact_form, cleaned_coil_voltage, contact_current, manufacturer_pn or '']
+        print(f"Contact Current: {contact_current}")
+        I_contact = format_current(contact_current)
+        name_parts = [tipo, cleaned_contact_form, cleaned_coil_voltage, I_contact, ]
         name_parts = [p for p in name_parts if p]  # remove vazios
         if name_parts:
             valores['Name'] = '_'.join(name_parts)

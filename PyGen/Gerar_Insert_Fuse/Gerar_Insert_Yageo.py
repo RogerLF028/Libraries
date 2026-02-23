@@ -50,24 +50,29 @@ def escape_sql_string(s):
     return "'" + str(s).replace("'", "''") + "'"
 
 def format_current(val):
-    """Formata o valor da corrente para o nome, sem zeros desnecessários."""
+    """Formata o valor da corrente para o nome, com mA para valores <1A e substituição do ponto por A para >=1A."""
     try:
         f = float(val)
-        if f.is_integer():
-            return f"{int(f)}A"
+        if f < 1.0:
+            # Converte para mA
+            ma = int(round(f * 1000))
+            return f"{ma}mA"
         else:
-            # Remove zeros à direita
-            s = f"{f:.3f}".rstrip('0').rstrip('.')
-            return f"{s}A"
+            if f.is_integer():
+                return f"{int(f)}A"
+            else:
+                # Converter para string sem zeros extras, substituir ponto por A
+                s = f"{f:.3f}".rstrip('0').rstrip('.')
+                if '.' in s:
+                    return s.replace('.', 'A')
+                else:
+                    return f"{s}A"
     except:
-        return f"{val}A"
+        return str(val)
 
 def generate_insert(output_path=None, start_id=920001):
     # Dados extraídos dos PDFs
     # Formato: (part_number, package, ihold, itrip, vmax, imax, pd, time_sec, time_current, rmin, rmax)
-    # Obs: para alguns, o tempo de disparo é dado em segundos para uma corrente específica.
-    # Vamos incluir todos os part numbers listados nas tabelas.
-
     data = [
         # Série SMD0603
         ("SMD0603B004TF", "0603", 0.04, 0.12, 20, 40, 0.5, 1.0, 0.20, 4.00, 40.0),
@@ -210,15 +215,17 @@ def generate_insert(output_path=None, start_id=920001):
     for row in data:
         part_number, package, ihold, itrip, vmax, imax, pd, time_sec, time_current, rmin, rmax = row
 
+        ihold_fmt = format_current(ihold)
+        itrip_fmt = format_current(itrip)
+
         # Gerar Name
-        current_str = format_current(ihold)
-        name = f"FUSE_{package}_{current_str}"
+        name = f"FUSE_{package}_{ihold_fmt}"
 
         # Description
-        description = f"PTC Resettable Fuse, {package} package, {ihold}A hold, {vmax}V"
+        description = f"PTC Resettable Fuse, {package} package, {ihold_fmt} hold, {vmax}V"
 
-        # Info1 = corrente
-        info1 = f"{ihold}A"
+        # Info1 = corrente formatada
+        info1 = ihold_fmt
 
         # Value = part number
         value = part_number
@@ -236,7 +243,7 @@ def generate_insert(output_path=None, start_id=920001):
         response_time = f"{time_sec} s at {time_current} A"
 
         # Notas (incluir Itrip e outros)
-        notes = f"Trip current: {itrip}A; Time to trip: {time_sec}s at {time_current}A; Power dissipation: {pd}W"
+        notes = f"Trip current: {itrip_fmt}; Time to trip: {time_sec}s at {time_current}A; Power dissipation: {pd}W"
 
         # Montar dicionário
         data_dict = {
@@ -292,7 +299,7 @@ def generate_insert(output_path=None, start_id=920001):
             'Unit': None,
             'Tolerance': None,
             'Voltage_Rating': f"{vmax} V",
-            'Current_Rating': f"{ihold} A",
+            'Current_Rating': ihold_fmt,
             'Power_Rating': None,
             'Temperature_Coefficient': None,
             'Pin_Configuration': None,
@@ -317,8 +324,8 @@ def generate_insert(output_path=None, start_id=920001):
             'Self_Resonant_Frequency': None,
             'Quality_Factor_Q': None,
             'Saturation_Current': None,
-            'Hold_Current': f"{ihold} A",
-            'Trip_Current': f"{itrip} A",
+            'Hold_Current': ihold_fmt,
+            'Trip_Current': itrip_fmt,
             'Interrupting_Rating': f"{imax} A",
             'Response_Time': response_time,
             'Forward_Voltage': None,

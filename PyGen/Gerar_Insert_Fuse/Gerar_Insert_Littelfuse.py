@@ -56,16 +56,29 @@ def safe_float(val):
         return None
 
 def format_current(val):
-    """Formata o valor da corrente para o nome, removendo .0 se inteiro."""
+    """
+    Formata o valor da corrente:
+    - Se valor < 1: converte para mA (multiplica por 1000, arredonda) e retorna "XmA".
+    - Se valor >= 1 e inteiro: retorna "XA".
+    - Se valor >= 1 e decimal: substitui o ponto por 'A' (ex: 1.5 -> "1A5").
+    """
     try:
         f = float(val)
-        if f.is_integer():
-            return f"{int(f)}A"
+        if f < 1.0:
+            ma = int(round(f * 1000))
+            return f"{ma}mA"
         else:
-            s = f"{f:.3f}".rstrip('0').rstrip('.')
-            return f"{s}A"
+            if f.is_integer():
+                return f"{int(f)}A"
+            else:
+                # Formata com até 3 casas decimais, remove zeros à direita
+                s = f"{f:.3f}".rstrip('0').rstrip('.')
+                if '.' in s:
+                    return s.replace('.', 'A')
+                else:
+                    return f"{s}A"
     except:
-        return f"{val}A"
+        return str(val)
 
 def generate_insert(output_path=None, start_id=910001):
     # Dados da série 154 Fast-Acting (fusíveis 451/453) extraídos da primeira imagem
@@ -116,8 +129,6 @@ def generate_insert(output_path=None, start_id=910001):
         {'pn': '0297020', 'current': 20, 'voltage': 32, 'interrupt': '1000A @ 32VDC', 'resistance_mohm': 3.21, 'i2t': 442, 'voltage_drop': 96},
         {'pn': '0297025', 'current': 25, 'voltage': 32, 'interrupt': '1000A @ 32VDC', 'resistance_mohm': 2.36, 'i2t': 622, 'voltage_drop': 86},
         {'pn': '0297030', 'current': 30, 'voltage': 32, 'interrupt': '1000A @ 32VDC', 'resistance_mohm': 1.85, 'i2t': 1230, 'voltage_drop': 87},
-        # SHUNT (sem corrente) - podemos ignorar ou tratar como item especial
-        # {'pn': '0297900', 'current': None, 'voltage': 32, 'interrupt': '', 'resistance_mohm': None, 'i2t': None, 'voltage_drop': None},
     ]
 
     # Símbolo fixo para fusíveis
@@ -135,9 +146,6 @@ def generate_insert(output_path=None, start_id=910001):
         interrupt = item['interrupt']
 
         # Gerar Manufacturer_PN para fast-acting 451/453 (formato 0451.xxx)
-        # O código da corrente: para 0.062, é .062; para 1.00, é .001 (conforme tabela)
-        # Vamos usar o valor da corrente com três casas decimais, removendo ponto.
-        # Ex: 0.062 -> "0451.062"
         if current < 1.0:
             code = f"{current:.3f}".lstrip('0')  # ".062"
         else:
@@ -182,10 +190,11 @@ def generate_insert(output_path=None, start_id=910001):
                 code = str(current).replace('.', '')
 
         manufacturer_pn = f"0451.{code}"
-        name = f"FUSE_154_{format_current(current)}"
-        description = f"Fast-Acting Fuse, {current}A, {voltage}V, Nano2 SMF, 451/453 Series"
+        current_fmt = format_current(current)
+        name = f"FUSE_154_{current_fmt}"
+        description = f"Fast-Acting Fuse, {current_fmt}, {voltage}V, Nano2 SMF, 451/453 Series"
         voltage_rating = f"{voltage} V"
-        current_rating = f"{current} A"
+        current_rating = current_fmt
         resistance_str = f"{resistance} Ohm" if resistance else None
         i2t_str = f"{i2t} A²s" if i2t else None
         interrupting = interrupt if interrupt else None
@@ -231,12 +240,13 @@ def generate_insert(output_path=None, start_id=910001):
         i2t = item['i2t']
         # voltage_drop opcional
 
-        name = f"FUSE_MINI_{format_current(current)}"
-        description = f"MINI® 32V Automotive Blade Fuse, {current}A, {voltage}V"
-        manufacturer_pn = pn  # usar o part number exato
+        current_fmt = format_current(current)
+        name = f"FUSE_MINI_{current_fmt}"
+        description = f"MINI® 32V Automotive Blade Fuse, {current_fmt}, {voltage}V"
+        manufacturer_pn = pn
         voltage_rating = f"{voltage} V"
-        current_rating = f"{current} A"
-        resistance_str = f"{resistance_mohm / 1000:.4f} Ohm" if resistance_mohm else None  # converter mOhm para Ohm
+        current_rating = current_fmt
+        resistance_str = f"{resistance_mohm / 1000:.4f} Ohm" if resistance_mohm else None
         i2t_str = f"{i2t} A²s" if i2t else None
         interrupting = interrupt
 

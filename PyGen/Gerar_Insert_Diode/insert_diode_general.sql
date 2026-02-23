@@ -1,5 +1,5 @@
 -- Inserções para diodos GENERAL
--- Gerado em 2026-02-19 23:55:19.327173
+-- Gerado em 2026-02-22 21:07:49.604968
 
 INSERT INTO Diode_General (
     MyPN,

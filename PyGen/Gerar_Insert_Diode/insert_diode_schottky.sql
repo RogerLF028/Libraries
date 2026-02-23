@@ -1,5 +1,5 @@
 -- Inserções para diodos SCHOTTKY
--- Gerado em 2026-02-19 23:55:19.336387
+-- Gerado em 2026-02-22 21:07:49.613318
 
 INSERT INTO Diode_Schottky (
     MyPN,

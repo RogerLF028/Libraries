@@ -5,7 +5,6 @@ from datetime import datetime
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_FILE = os.path.join(SCRIPT_DIR, "insert_capacitor_nichicon_upj_tht.sql")
 
-# Lista das colunas que serão preenchidas (na ordem desejada)
 COLUNAS = [
     'MyPN', 'Name', 'Description', 'Value', 'Info1', 'Info2',
     'Symbol', 'Footprint', 'Manufacturer', 'Manufacturer_PN', 'Family_Series',
@@ -28,11 +27,13 @@ def format_capacitance(c):
     else:
         return f"{c}u"
 
-def format_voltage(v):
+def format_voltage_display(v):
+    """Formata tensão para exibição: 6.3V → '6V3', 10V → '10V', etc."""
     if v == int(v):
         return f"{int(v)}V"
     else:
-        return f"{v}V"
+        # Converte para string e troca o ponto por 'V'
+        return str(v).replace('.', 'V')
 
 # Mapeamento de diâmetro para passo (conforme tabela do datasheet UPJ)
 tht_pitch = {
@@ -50,7 +51,6 @@ def get_footprint_tht(case_size):
     dia_str = case_size.split('x')[0]
     dia = float(dia_str)
     pitch = tht_pitch.get(dia, 2.5)  # fallback
-    # Formata diâmetro e passo sem decimais desnecessários
     dia_fmt = f"{dia:.1f}".rstrip('0').rstrip('.') if '.' in f"{dia:.1f}" else f"{dia:.1f}"
     pitch_fmt = f"{pitch:.1f}".rstrip('0').rstrip('.') if '.' in f"{pitch:.1f}" else f"{pitch:.1f}"
     return f"MyLib_Capacitor_THT:CP_Radial_D{dia_fmt}mm_P{pitch_fmt}mm"
@@ -474,7 +474,7 @@ upj_data = [
     ("UPJ2A561MHD", 100, 560, "18x35.5", 0.08, 1680, 0.041, 1680),
     ("UPJ2A681MHD", 100, 680, "18x40", 0.08, 2040, 0.036, 1910),
 
-    # Página 11 - 160V, 200V, 250V, 315V (somente alguns exemplos, mas listaremos todos)
+    # Página 11 - 160V, 200V, 250V, 315V
     ("UPJ2C010MPD", 160, 1, "8x11.5", 0.20, 56, None, 19),
     ("UPJ2C2R2MPD", 160, 2.2, "8x11.5", 0.20, 75.2, None, 30),
     ("UPJ2C3R3MPD", 160, 3.3, "10x12.5", 0.20, 92.8, None, 50),
@@ -510,16 +510,42 @@ upj_data = [
     ("UPJ2F220MHD", 315, 22, "16x25", 0.20, 377.2, None, 150),
     ("UPJ2F330MHD", 315, 33, "16x30.5", 0.20, 515.8, None, 185),
     ("UPJ2F470MHD", 315, 47, "18x35.5", 0.20, 692.2, None, 235),
+
+    # NOTA: Os dados para 400V e 450V não estão presentes no datasheet fornecido.
+    # Caso você tenha as tabelas, adicione-as aqui seguindo o mesmo padrão.
+
+     # Página 12 (extra) - 350V, 400V, 450V
+    # 350V (código 2V)
+    ("UPJ2V010MPD", 350, 1, "10x12.5", 0.20, 75, None, None),
+    ("UPJ2V2R2MPD", 350, 2.2, "10x16", 0.20, 117, None, None),
+    ("UPJ2V3R3MPD", 350, 3.3, "10x20", 0.20, 146.2, None, None),
+    ("UPJ2V4R7MPD", 350, 4.7, "10x20", 0.20, 165.8, None, None),
+    ("UPJ2V100MHD", 350, 10, "12.5x25", 0.20, 240, None, None),
+    ("UPJ2V220MHD", 350, 22, "16x25", 0.20, 408, None, None),
+    ("UPJ2V330MHD", 350, 33, "16x35.5", 0.20, 562, None, None),
+    ("UPJ2V470MHD", 350, 47, "18x40", 0.20, 758, None, None),
+
+    # 400V (código 2G)
+    ("UPJ2G010MPD", 400, 1, "10x12.5", 0.25, 80, None, None),
+    ("UPJ2G2R2MPD", 400, 2.2, "10x16", 0.25, 128, None, None),
+    ("UPJ2G3R3MPD", 400, 3.3, "10x20", 0.25, 152.8, None, None),
+    ("UPJ2G4R7MHD", 400, 4.7, "12.5x20", 0.25, 175.2, None, None),
+    ("UPJ2G100MHD", 400, 10, "12.5x25", 0.25, 260, None, None),
+    ("UPJ2G220MHD", 400, 22, "16x30.5", 0.25, 452, None, None),
+    ("UPJ2G330MHD", 400, 33, "18x35.5", 0.25, 628, None, None),
+
+    # 450V (código 2W)
+    ("UPJ2W010MPD", 450, 1, "10x16", 0.25, 85, None, None),
+    ("UPJ2W2R2MPD", 450, 2.2, "10x20", 0.25, 139, None, None),
+    ("UPJ2W3R3MHD", 450, 3.3, "12.5x20", 0.25, 159.4, None, None),
+    ("UPJ2W4R7MHD", 450, 4.7, "12.5x25", 0.25, 184.6, None, None),
+    ("UPJ2W100MHD", 450, 10, "16x25", 0.25, 280, None, None),
+    ("UPJ2W220MHD", 450, 22, "16x35.5", 0.25, 496, None, None),
+    ("UPJ2W330MHD", 450, 33, "18x40", 0.25, 694, None, None),
+
 ]
 
 # ==================== GERAÇÃO DO INSERT ====================
-# contador = 700000 + len(uwt_data)  # Começa após os UWT
-# Se os scripts forem executados separadamente, ajuste o contador conforme necessário.
-# Aqui vamos considerar que este script é independente e começa em 700000 + (número de UWT).
-# Para simplificar, vamos começar em 700200 para garantir espaço.
-# Mas o ideal é executar o UWT primeiro, depois este com contador a partir do último+1.
-# Vamos usar contador = 700200 para evitar conflito.
-
 contador = 700200
 created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 created_by = "Rogerio Fontanario"
@@ -542,11 +568,11 @@ for part, v, c, case, tan, leak, imp, ripple in upj_data:
     contador += 1
     footprint = get_footprint_tht(case)
     cap_str = format_capacitance(c)
-    volt_str = format_voltage(v)
-    name = f"CAP_POL_{cap_str}F_{volt_str}_THT"
-    description = f"Aluminum Electrolytic Capacitor {cap_str} {volt_str}"
+    volt_display = format_voltage_display(v)   # Ex: 6.3V → "6V3"
+    name = f"CAP_POL_{cap_str}F_{volt_display}_THT"
+    description = f"Aluminum Electrolytic Capacitor {cap_str} {volt_display}"
     value = cap_str
-    info1 = volt_str
+    info1 = volt_display
     info2 = None  # em branco
     # Faixa de temperatura conforme tensão
     if v <= 100:
@@ -558,7 +584,7 @@ for part, v, c, case, tan, leak, imp, ripple in upj_data:
     mount = "THT"
     dimensions = case + "mm"
 
-    imp = f'Imp:{imp}'
+    notes = f"Imp:{imp}" if imp is not None else None
 
     valores = {
         'MyPN': mypn,
@@ -587,7 +613,7 @@ for part, v, c, case, tan, leak, imp, ripple in upj_data:
         'Capacitance': c,
         'Voltage_Rating': v,
         'Ripple_Current': ripple,
-        'Notes': imp,
+        'Notes': notes,
         'Leakage_Current': leak,
         'Tolerance': tolerance,
         'Unit': unit,
@@ -599,6 +625,11 @@ for part, v, c, case, tan, leak, imp, ripple in upj_data:
 with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
     f.write(f"-- Inserções para a tabela Capacitor_General (Nichicon UPJ THT)\n")
     f.write(f"-- Gerado em {datetime.now()}\n\n")
+    if any(v > 315 for _, v, _, _, _, _, _, _ in upj_data):
+        pass
+    else:
+        f.write("-- ATENÇÃO: Dados para 400V e 450V não estão presentes no datasheet fornecido.\n")
+        f.write("-- Adicione manualmente se necessário.\n\n")
     f.write(f"INSERT INTO Capacitor_General (\n")
     f.write("    " + ",\n    ".join(COLUNAS) + "\n")
     f.write(") VALUES\n")
