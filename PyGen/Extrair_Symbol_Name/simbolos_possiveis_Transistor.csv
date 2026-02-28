@@ -1,0 +1,131 @@
+Symbol,Value,Footprint,Description,Tags,Footprint_Filter,Datasheet
+MyLib_Transistor:Q_Dual_NMOS_G1S2G2D2S1D1,Q_Dual_NMOS_G1S2G2D2S1D1,,"Dual NMOS transistor, 6 pin package",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_Dual_NMOS_S1G1D2S2G2D1,Q_Dual_NMOS_S1G1D2S2G2D1,,"Dual NMOS transistor, 6 pin package",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_Dual_NMOS_S1G1S2G2D2D1,Q_Dual_NMOS_S1G1S2G2D2D1,,"Dual NMOS transistor, 6 pin package",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_Dual_NMOS_S1G1S2G2D2D2D1D1,Q_Dual_NMOS_S1G1S2G2D2D2D1D1,,"Dual NMOS transistor, 8 pin package",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_Dual_NPN_C2C1E1E2,Q_Dual_NPN_C2C1E1E2,,"Double NPN transistors, current mirror configuration",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_NPN_B1E2B2C2E1C1,Q_Dual_NPN_NPN_B1E2B2C2E1C1,,"Dual NPN transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_NPN_BRT_E1B1C2E2B2C1,Q_Dual_NPN_NPN_BRT_E1B1C2E2B2C1,,"Dual NPN bias resistor transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_NPN_BRT_No_R2_C1B2E2C2B1E1,Q_Dual_NPN_NPN_BRT_No_R2_C1B2E2C2B1E1,,"Dual NPN bias resistor transistor without a base-emitter resistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_NPN_BRT_No_R2_E1B1C2E2B2C1,Q_Dual_NPN_NPN_BRT_No_R2_E1B1C2E2B2C1,,"Dual NPN bias resistor transistor without a base-emitter resistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_NPN_C1E1C2E2B2B1,Q_Dual_NPN_NPN_C1E1C2E2B2B1,,"Dual NPN transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_NPN_E1B1C2E2B2C1,Q_Dual_NPN_NPN_E1B1C2E2B2C1,,"Dual NPN transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_PNP_B1E2B2C2E1C1,Q_Dual_NPN_PNP_B1E2B2C2E1C1,,"Dual NPN/PNP transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_PNP_BRT_E1B1C2E2B2C1,Q_Dual_NPN_PNP_BRT_E1B1C2E2B2C1,,"Dual NPN/PNP bias resistor transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_NPN_PNP_E1B1C2E2B2C1,Q_Dual_NPN_PNP_E1B1C2E2B2C1,,"Dual NPN/PNP transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_PMOS_G1S2G2D2S1D1,Q_Dual_PMOS_G1S2G2D2S1D1,,"Dual PMOS transistor, 6 pin package",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_Dual_PMOS_S1G1D2S2G2D1,Q_Dual_PMOS_S1G1D2S2G2D1,,"Dual PMOS transistor, 6 pin package",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_Dual_PMOS_S1G1S2G2D2D2D1D1,Q_Dual_PMOS_S1G1S2G2D2D2D1D1,,"Dual PMOS transistor, 8 pin package",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_Dual_PNP_C2C1E1E2,Q_Dual_PNP_C2C1E1E2,,"Double PNP transistors, current mirror configuration",BJT,,~
+MyLib_Transistor:Q_Dual_PNP_NPN_BRT_E1B1C2E2B2C1,Q_Dual_PNP_NPN_BRT_E1B1C2E2B2C1,,"Dual PNP/NPN bias resistor transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_PNP_PNP_BRT_E1B1C2E2B2C1,Q_Dual_PNP_PNP_BRT_E1B1C2E2B2C1,,"Dual PNP bias resistor transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_PNP_PNP_C1B1B2C2E2E1,Q_Dual_PNP_PNP_C1B1B2C2E2E1,,"Dual PNP transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_PNP_PNP_C1E1C2E2B2B1,Q_Dual_PNP_PNP_C1E1C2E2B2B1,,"Dual PNP transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_Dual_PNP_PNP_E1B1C2E2B2C1,Q_Dual_PNP_PNP_E1B1C2E2B2C1,,"Dual PNP transistor, 6 pin package",BJT,,~
+MyLib_Transistor:Q_NIGBT_CEG,Q_NIGBT_CEG,,"N-IGBT transistor, collector/emitter/gate",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_CGE,Q_NIGBT_CGE,,"N-IGBT transistor, collector/gate/emitter",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_ECG,Q_NIGBT_ECG,,"N-IGBT transistor, emitter/collector/gate",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_ECGC,Q_NIGBT_ECGC,,"N-IGBT transistor, emitter/collector/gate, collector connected to mounting plane",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_EGC,Q_NIGBT_EGC,,"N-IGBT transistor, emitter/gate/collector",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_GCE,Q_NIGBT_GCE,,"N-IGBT transistor, gate/collector/emitter",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_GCEC,Q_NIGBT_GCEC,,"N-IGBT transistor, gate/collector/emitter, collector connected to mounting plane",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NIGBT_GEC,Q_NIGBT_GEC,,"N-IGBT transistor, gate/emitter/collector",transistor IGBT N-IGBT,,~
+MyLib_Transistor:Q_NJFET_DGS,Q_NJFET_DGS,,"N-JFET transistor, drain/gate/source",transistor NJFET N-JFET,,~
+MyLib_Transistor:Q_NJFET_DSG,Q_NJFET_DSG,,"N-JFET transistor, drain/source/gate",transistor NJFET N-JFET,,~
+MyLib_Transistor:Q_NJFET_GDS,Q_NJFET_GDS,,"N-JFET transistor, gate/drain/source",transistor NJFET N-JFET,,~
+MyLib_Transistor:Q_NJFET_GSD,Q_NJFET_GSD,,"N-JFET transistor, gate/source/drain",transistor NJFET N-JFET,,~
+MyLib_Transistor:Q_NJFET_SDG,Q_NJFET_SDG,,"N-JFET transistor, source/drain/gate",transistor NJFET N-JFET,,~
+MyLib_Transistor:Q_NJFET_SGD,Q_NJFET_SGD,,"N-JFET transistor, source/gate/drain",transistor NJFET N-JFET,,~
+MyLib_Transistor:Q_NMOS,Q_NMOS,,N-MOSFET transistor,NMOS N-MOS,,~
+MyLib_Transistor:Q_NMOS_DGS,Q_NMOS_DGS,,"N-MOSFET transistor, drain/gate/source",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_DSG,Q_NMOS_DSG,,"N-MOSFET transistor, drain/source/gate",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_Depletion,Q_NMOS_Depletion,,Depletion-mode N-channel MOSFET,NMOS,,~
+MyLib_Transistor:Q_NMOS_Depletion_DGS,Q_NMOS_Depletion_DGS,,"Depletion-mode N-channel MOSFET, drain/gate/source",NMOS,,~
+MyLib_Transistor:Q_NMOS_Depletion_DSG,Q_NMOS_Depletion_DSG,,Depletion-mode N-channel MOSFET drain/source/gate,NMOS,,~
+MyLib_Transistor:Q_NMOS_Depletion_GDS,Q_NMOS_Depletion_GDS,,Depletion-mode N-channel MOSFET gate/drain/source,NMOS,,~
+MyLib_Transistor:Q_NMOS_Depletion_GSD,Q_NMOS_Depletion_GSD,,Depletion-mode N-channel MOSFET gate/source/drain,NMOS,,~
+MyLib_Transistor:Q_NMOS_Depletion_SDG,Q_NMOS_Depletion_SDG,,Depletion-mode N-channel MOSFET source/drain/gate,NMOS,,~
+MyLib_Transistor:Q_NMOS_Depletion_SGD,Q_NMOS_Depletion_SGD,,Depletion-mode N-channel MOSFET source/gate/drain,NMOS,,~
+MyLib_Transistor:Q_NMOS_GDS,Q_NMOS_GDS,,"N-MOSFET transistor, gate/drain/source",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_GDSD,Q_NMOS_GDSD,,"N-MOSFET transistor, gate/drain/source, drain connected to mounting plane",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_GSD,Q_NMOS_GSD,,"N-MOSFET transistor, gate/source/drain",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_GSSD,Q_NMOS_GSSD,,"N-MOSFET transistor, gate/driver source/source/drain",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_SDGD,Q_NMOS_SDGD,,"N-MOSFET transistor, source/drain/gate, drain connected to mounting plane",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_SGD,Q_NMOS_SGD,,"N-MOSFET transistor, source/gate/drain",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NMOS_SSSGD_AvalancheRated,Q_NMOS_SSSGD_AvalancheRated,,"N-MOSFET transistor, source (pins 1-3)/gate/drain (pin 5), SO-8/SO-8F/SO-8FL/SON-8/PowerPAK-8/TDSON-8/VSON-8",transistor NMOS N-MOS N-MOSFET,,~
+MyLib_Transistor:Q_NPN,Q_NPN,,NPN bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_NPN_BCE,Q_NPN_BCE,,"NPN transistor, base/collector/emitter",BJT,,~
+MyLib_Transistor:Q_NPN_BCEC,Q_NPN_BCEC,,"NPN transistor, base/collector/emitter, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_NPN_BEC,Q_NPN_BEC,,"NPN transistor, base/emitter/collector",BJT,,~
+MyLib_Transistor:Q_NPN_BRT,Q_NPN_BRT,,NPN bias resistor bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_NPN_BRT_BEC,Q_NPN_BRT_BEC,,"NPN bias resistor transistor, base/emitter/collector",BJT,,~
+MyLib_Transistor:Q_NPN_BRT_ECB,Q_NPN_BRT_ECB,,"NPN transistor, emitter/collector/base",BJT,,~
+MyLib_Transistor:Q_NPN_BRT_No_R2,Q_NPN_BRT_No_R2,,NPN gate resistor bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_NPN_CBE,Q_NPN_CBE,,"NPN transistor, collector/base/emitter",BJT,,~
+MyLib_Transistor:Q_NPN_CEB,Q_NPN_CEB,,"NPN transistor, collector/emitter/base",BJT,,~
+MyLib_Transistor:Q_NPN_CurrentMirror,Q_NPN_CurrentMirror,,"NPN bipolar junction transistors, current mirror configuration",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington,Q_NPN_Darlington,,NPN Darlington  bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_BCE,Q_NPN_Darlington_BCE,,"NPN Darlington transistor, base/collector/emitter",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_BCEC,Q_NPN_Darlington_BCEC,,"NPN Darlington transistor, base/collector/emitter, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_BEC,Q_NPN_Darlington_BEC,,"NPN Darlington transistor, base/emitter/collector",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_CBE,Q_NPN_Darlington_CBE,,"NPN Darlington transistor, collector/base/emitter",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_CEB,Q_NPN_Darlington_CEB,,"NPN Darlington transistor, collector/emitter/base",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_EBC,Q_NPN_Darlington_EBC,,"NPN Darlington transistor, emitter/base/collector",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_ECB,Q_NPN_Darlington_ECB,,"NPN Darlington transistor, emitter/collector/base",BJT,,~
+MyLib_Transistor:Q_NPN_Darlington_ECBC,Q_NPN_Darlington_ECBC,,"NPN Darlington transistor, emitter/collector/base, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_NPN_EBC,Q_NPN_EBC,,"NPN transistor, emitter/base/collector",BJT,,~
+MyLib_Transistor:Q_NPN_ECB,Q_NPN_ECB,,"NPN transistor, emitter/collector/base",BJT,,~
+MyLib_Transistor:Q_NPN_ECBC,Q_NPN_ECBC,,"NPN transistor, emitter/collector/base, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_NUJT_BEB,Q_NUJT_BEB,,N-Type unijunction transistor,transistor UJT,,~
+MyLib_Transistor:Q_PJFET_DGS,Q_PJFET_DGS,,"P-JFET transistor, drain/gate/source",transistor PJFET P-JFET,,~
+MyLib_Transistor:Q_PJFET_DSG,Q_PJFET_DSG,,"P-JFET transistor, drain/source/gate",transistor PJFET P-JFET,,~
+MyLib_Transistor:Q_PJFET_GDS,Q_PJFET_GDS,,"P-JFET transistor, gate/drain/source",transistor PJFET P-JFET,,~
+MyLib_Transistor:Q_PJFET_GSD,Q_PJFET_GSD,,"P-JFET transistor, gate/source/drain",transistor PJFET P-JFET,,~
+MyLib_Transistor:Q_PJFET_SDG,Q_PJFET_SDG,,"P-JFET transistor, source/drain/gate",transistor PJFET P-JFET,,~
+MyLib_Transistor:Q_PJFET_SGD,Q_PJFET_SGD,,"P-JFET transistor, source/gate/drain",transistor PJFET P-JFET,,~
+MyLib_Transistor:Q_PMOS,Q_PMOS,,P-MOSFET transistor,PMOS P-MOS,,~
+MyLib_Transistor:Q_PMOS_DGS,Q_PMOS_DGS,,"P-MOSFET transistor, drain/gate/source",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_DSG,Q_PMOS_DSG,,"P-MOSFET transistor, drain/source/gate",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_Depletion,Q_PMOS_Depletion,,Depletion-mode P-channel MOSFET,PMOS,,~
+MyLib_Transistor:Q_PMOS_GDS,Q_PMOS_GDS,,"P-MOSFET transistor, gate/drain/source",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_GDSD,Q_PMOS_GDSD,,"P-MOSFET transistor, gate/drain/source, drain connected to mounting plane",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_GSD,Q_PMOS_GSD,,"P-MOSFET transistor, gate/source/drain",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_SDG,Q_PMOS_SDG,,"P-MOSFET transistor, source/drain/gate",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_SDGD,Q_PMOS_SDGD,,"P-MOSFET transistor, source/drain/gate, drain connected to mounting plane",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PMOS_SGD,Q_PMOS_SGD,,"P-MOSFET transistor, source/gate/drain",transistor PMOS P-MOS P-MOSFET,,~
+MyLib_Transistor:Q_PNP,Q_PNP,,PNP bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_PNP_BCE,Q_PNP_BCE,,"PNP transistor, base/collector/emitter",BJT,,~
+MyLib_Transistor:Q_PNP_BCEC,Q_PNP_BCEC,,"PNP transistor, base/collector/emitter, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_PNP_BEC,Q_PNP_BEC,,"PNP transistor, base/emitter/collector",BJT,,~
+MyLib_Transistor:Q_PNP_BRT,Q_PNP_BRT,,PNP bias resistor bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_PNP_BRT_BEC,Q_PNP_BRT_BEC,,"PNP bias resistor transistor, base/emitter/collector",BJT,,~
+MyLib_Transistor:Q_PNP_BRT_ECB,Q_PNP_BRT_ECB,,"PNP bias resistor transistor, emitter/collector/base",BJT,,~
+MyLib_Transistor:Q_PNP_BRT_No_R2,Q_PNP_BRT_No_R2,,PNP gate resistor bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_PNP_CBE,Q_PNP_CBE,,"PNP transistor, collector/base/emitter",BJT,,~
+MyLib_Transistor:Q_PNP_CEB,Q_PNP_CEB,,"PNP transistor, collector/emitter/base",BJT,,~
+MyLib_Transistor:Q_PNP_CurrentMirror,Q_PNP_CurrentMirror,,"Double PNP bipolar junction transistors, current mirror configuration",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington,Q_PNP_Darlington,,PNP Darlington bipolar junction transistor,BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_BCE,Q_PNP_Darlington_BCE,,"PNP Darlington transistor, base/collector/emitter",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_BCEC,Q_PNP_Darlington_BCEC,,"PNP Darlington transistor, base/collector/emitter, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_BEC,Q_PNP_Darlington_BEC,,"PNP Darlington transistor, base/emitter/collector",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_CBE,Q_PNP_Darlington_CBE,,"PNP Darlington transistor, collector/base/emitter",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_CEB,Q_PNP_Darlington_CEB,,"PNP Darlington transistor, collector/emitter/base",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_EBC,Q_PNP_Darlington_EBC,,"PNP Darlington transistor, emitter/base/collector",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_ECB,Q_PNP_Darlington_ECB,,"PNP Darlington transistor, emitter/collector/base",BJT,,~
+MyLib_Transistor:Q_PNP_Darlington_ECBC,Q_PNP_Darlington_ECBC,,"PNP Darlington transistor, emitter/collector/base, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_PNP_EBC,Q_PNP_EBC,,"PNP transistor, emitter/base/collector",BJT,,~
+MyLib_Transistor:Q_PNP_ECB,Q_PNP_ECB,,"PNP transistor, emitter/collector/base",BJT,,~
+MyLib_Transistor:Q_PNP_ECBC,Q_PNP_ECBC,,"PNP transistor, emitter/collector/base, collector connected to mounting plane",BJT,,~
+MyLib_Transistor:Q_PUJT_BEB,Q_PUJT_BEB,,P-Type unijunction transistor,transistor UJT,,~
+MyLib_Transistor:Q_Photo_NPN,Q_Photo_NPN,,"NPN phototransistor, collector/emitter",phototransistor NPN,,~
+MyLib_Transistor:Q_Photo_NPN_CBE,Q_Photo_NPN_CBE,,"NPN phototransistor, collector/base/emitter",phototransistor NPN,,~
+MyLib_Transistor:Q_Photo_NPN_CE,Q_Photo_NPN_CE,,"NPN phototransistor, collector/emitter",phototransistor NPN,,~
+MyLib_Transistor:Q_Photo_NPN_EBC,Q_Photo_NPN_EBC,,"NPN phototransistor, emitter/base/collector",phototransistor NPN,,~
+MyLib_Transistor:Q_Photo_NPN_EC,Q_Photo_NPN_EC,,"NPN phototransistor, emitter/collector",phototransistor NPN,,~
+MyLib_Transistor:Q_SCR_AGK,Q_SCR_AGK,,"Silicon controlled rectifier, anode/gate/cathode",SCR thyristor,,~
+MyLib_Transistor:Q_SCR_AKG,Q_SCR_AKG,,"Silicon controlled rectifier, anode/cathode/gate",SCR thyristor,,~
+MyLib_Transistor:Q_SCR_GAK,Q_SCR_GAK,,"Silicon controlled rectifier, gate/anode/cathode",SCR thyristor,,~
+MyLib_Transistor:Q_SCR_GKA,Q_SCR_GKA,,"Silicon controlled rectifier, gate/cathode/anode",SCR thyristor,,~
+MyLib_Transistor:Q_SCR_KAG,Q_SCR_KAG,,"Silicon controlled rectifier, cathode/anode/gate",SCR thyristor,,~
+MyLib_Transistor:Q_SCR_KGA,Q_SCR_KGA,,"Silicon controlled rectifier, cathode/gate/anode",SCR thyristor,,~
+MyLib_Transistor:Q_Triac,Q_Triac,,"Triode for alternating current, generic/no defined pinout",TRIAC,,~

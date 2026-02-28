@@ -1,12 +1,14 @@
 (footprint "Fuse_1812_4532Metric"
 	(version 20241229)
-	(generator "kicad-footprint-generator")
+	(generator "pcbnew")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(descr "Fuse SMD 1812 (4532 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://www.nikhef.nl/pub/departments/mt/projects/detectorR_D/dtddice/ERJ2G.pdf), generated with kicad-footprint-generator")
 	(tags "fuse")
 	(property "Reference" "REF**"
 		(at 0 -2.65 0)
 		(layer "F.SilkS")
+		(uuid "934594aa-844f-41a4-a073-ad3a12e25602")
 		(effects
 			(font
 				(size 1 1)
@@ -17,9 +19,34 @@
 	(property "Value" "Fuse_1812_4532Metric"
 		(at 0 2.65 0)
 		(layer "F.Fab")
+		(uuid "80436ec4-281e-42a3-ac2c-e4e2578d500e")
 		(effects
 			(font
 				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d913b70e-7d37-4447-a052-ac00e6e661ad")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "76820f91-1d2f-413d-92b8-78281b938f53")
+		(effects
+			(font
+				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -33,6 +60,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
+		(uuid "5370cdf7-c1d4-482b-a340-9f05a7cdd5a4")
 	)
 	(fp_line
 		(start -1.386252 1.71)
@@ -42,6 +70,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
+		(uuid "8823312d-5a45-406b-8d0e-87a8a3a40e34")
 	)
 	(fp_rect
 		(start -2.95 -1.95)
@@ -52,6 +81,7 @@
 		)
 		(fill no)
 		(layer "F.CrtYd")
+		(uuid "f407f9a1-17b2-4d05-bf53-22c8db10b181")
 	)
 	(fp_rect
 		(start -2.25 -1.6)
@@ -62,10 +92,12 @@
 		)
 		(fill no)
 		(layer "F.Fab")
+		(uuid "2ce58dd9-feb7-4f71-b743-ce83f7c338e0")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
+		(uuid "50ac71cb-68cc-4996-b035-eb2199fb2284")
 		(effects
 			(font
 				(size 1 1)
@@ -78,15 +110,17 @@
 		(size 1.125 3.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.222222)
+		(uuid "453426e7-94ae-4dc7-bcfe-4083d2aec7ff")
 	)
 	(pad "2" smd roundrect
 		(at 2.1375 0)
 		(size 1.125 3.4)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.222222)
+		(uuid "927fccfb-6385-47aa-bea0-6de72b862ae2")
 	)
 	(embedded_fonts no)
-	(model "${KICAD9_3DMODEL_DIR}/Fuse.3dshapes/Fuse_1812_4532Metric.step"
+	(model "${KICAD9_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_1812_4532Metric.step"
 		(offset
 			(xyz 0 0 0)
 		)
