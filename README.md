@@ -31,9 +31,9 @@ Follow these steps to install and configure the database library in KiCad.
    Example: `"path": "C:/Users/YourName/.../Database_Setup/Database.sqlite"`
 4. Save the file.
 
-![Step 1a – Edit the .kicad_dbl file](Imagens/image1.png)
+![Step 1a – Edit the .kicad_dbl file](Images/image1.png)
 
-![Step 1b – Update the database path](Imagens/image2.png)
+![Step 1b – Update the database path](Images/image2.png)
 
 ---
 
@@ -49,7 +49,7 @@ Follow these steps to install and configure the database library in KiCad.
    *(Adjust names and paths as needed.)*
 4. Click **OK** to save.
 
-![Step 2 – Configure paths in KiCad](Imagens/image3.png)
+![Step 2 – Configure paths in KiCad](Images/image3.png)
 
 ---
 
@@ -62,9 +62,9 @@ Follow these steps to install and configure the database library in KiCad.
 5. Add all the libraries with "Add Existing" button .
 6. Click **OK** to close the dialog.
 
-![Step 3a – Manage Footprint Libraries dialog](Imagens/image4.png)
+![Step 3a – Manage Footprint Libraries dialog](Images/image4.png)
 
-![Step 3b – Select footprint libraries](Imagens/image5.png)
+![Step 3b – Select footprint libraries](Images/image5.png)
 
 ---
 
@@ -76,9 +76,9 @@ Follow these steps to install and configure the database library in KiCad.
 4. **Important:** For each of these libraries, **uncheck** the **Visible** option. This prevents them from appearing in the symbol chooser; they are only used as a fallback or for legacy compatibility.
 5. Click **OK** to save.
 
-![Step 4a – Add symbol libraries (KiCad format)](Imagens/image6.png)
+![Step 4a – Add symbol libraries (KiCad format)](Images/image6.png)
 
-![Step 4b – Uncheck "Visible"](Imagens/image7.png)
+![Step 4b – Uncheck "Visible"](Images/image7.png)
 
 ---
 
@@ -91,7 +91,7 @@ Follow these steps to install and configure the database library in KiCad.
 5. Ensure the **Visible** option is **checked** (so it appears in the symbol chooser).
 6. Click **OK**.
 
-![Step 5 – Add Database library](Imagens/image8.png)
+![Step 5 – Add Database library](Images/image8.png)
 
 ---
 
@@ -102,7 +102,7 @@ Follow these steps to install and configure the database library in KiCad.
 - If you **create a new table**, you must update the `.kicad_dbl` file so KiCad recognizes it.  
   A Python script is provided in the `PyGen` folder that can regenerate the `.kicad_dbl` file based on all tables present in the database. Run this script after adding a new table.
 
-![Step 6 – Edit the database](Imagens/image9.png)
+![Step 6 – Edit the database](Images/image9.png)
 
 ---
 
