@@ -23,24 +23,6 @@ class KiCadDBLGeneratorFromDB:
         "inherit_properties": False
     }
     
-    # Fields that typically inherit properties (electrical characteristics)
-    INHERIT_PROPERTIES_FIELDS = [
-        'Value', 'Info1', 'Info2' 'Tolerance', 'Package', 'Voltage', 'Current',
-        'Forward_Voltage', 'Reverse_Voltage', 'Breakdown_Voltage',
-        'Forward_Current', 'Reverse_Current', 'Capacitance',
-        'Standoff_Voltage', 'Clamping_Voltage', 'Resistance',
-        'Inductance', 'Frequency', 'Gain', 'Bandwidth', 'Power',
-        'Temperature_Coefficient', 'Input_Voltage', 'Output_Voltage',
-        'Output_Current', 'Switching_Frequency', 'Max_Frequency',
-        'Operating_Voltage', 'Supply_Voltage', 'Power_Rating',
-        'Value_Ohms', 'Output_Current_Max', 'Input_Voltage_Min',
-        'Input_Voltage_Max', 'Output_Voltage_Min', 'Output_Voltage_Max',
-        'Quiescent_Current', 'Shutdown_Current', 'Efficiency_Max',
-        'Dropout_Voltage', 'PSRR', 'Noise', 'Accuracy', 'Max_Frequency',
-        'Flash_Size', 'RAM_Size', 'EEPROM_Size', 'GPIO_Pins',
-        'ADC_Resolution', 'DAC_Resolution', 'PWM_Channels'
-    ]
-    
     # Tables to exclude from the library (system tables)
     EXCLUDE_TABLES = ['sqlite_sequence', 'sqlite_master', 'sqlite_temp_master']
     
@@ -127,11 +109,6 @@ class KiCadDBLGeneratorFromDB:
         except sqlite3.Error:
             return None
     
-    def should_inherit_properties(self, column_name: str) -> bool:
-        """Determine if a column should inherit properties in KiCad"""
-        return any(pattern.lower() in column_name.lower() 
-                  for pattern in self.INHERIT_PROPERTIES_FIELDS)
-    
     def format_library_name(self, table_name: str) -> str:
         """
         Format table name to be used as library name
@@ -159,27 +136,30 @@ class KiCadDBLGeneratorFromDB:
         """
         fields = []
         
-        # Get preview data to help with configuration
+        # Get preview data (optional, not used for inherit_properties anymore)
         preview_data = self.get_table_preview(table_name)
         
         for column in columns:
+            # Start with default configuration (all False)
             field_config = {
                 "column": column,
                 "name": column,
                 **self.DEFAULT_FIELD_CONFIG
             }
             
-            # Set inherit_properties based on column name and content
-            inherit = self.should_inherit_properties(column)
+            # Special handling for Value, Info1, Info2
+            if column in ["Value", "Info1", "Info2"]:
+                field_config["visible_on_add"] = True
+                field_config["visible_in_chooser"] = True
+                field_config["show_name"] = False
+                # inherit_properties remains False (default)
+            if column in ["Package"]:
+                field_config["visible_on_add"] = False
+                field_config["visible_in_chooser"] = False
+                field_config["show_name"] = False
+                field_config["inherit_properties"]= True
             
-            # If we have preview data and the field is empty, maybe don't inherit
-            if preview_data and column in preview_data:
-                value = preview_data[column]
-                if value is None or str(value).strip() == '':
-                    # Empty fields might not want to inherit
-                    pass  # Keep as determined by name
-            
-            field_config["inherit_properties"] = inherit
+            # For all other columns, keep default (inherit_properties = False)
             
             fields.append(field_config)
         
@@ -365,13 +345,13 @@ def get_project_paths():
         'pygen_dir': pygen_dir,
         'libraries_dir': libraries_dir,
         'database_setup_dir': os.path.join(libraries_dir, 'Database_Setup'),
-        'database_file': os.path.join(libraries_dir, 'Library', '1_Database_Library', 'MyKiCadDB.sqlite')
+        'database_file': os.path.join(libraries_dir, 'Library', '1_Database_Library', 'MyKiCadLibDatabase.sqlite')
     }
     
     return paths
 
 
-def generate_output_filename(base_name="MyKiCadDatabaseSetup"):
+def generate_output_filename(base_name="MyKiCadLibDatabase_Setup"):
     """
     Generate a unique output filename with timestamp to avoid overwriting
     """

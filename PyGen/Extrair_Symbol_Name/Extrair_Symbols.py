@@ -247,8 +247,8 @@ if __name__ == "__main__":
     print("=" * 60)
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    caminho_pasta = os.path.join(script_dir, 'symbols')
-    arquivo_saida = os.path.join(script_dir, 'simbolos_possiveis_Transistor.csv')
+    caminho_pasta = os.path.join(script_dir, 'Filter')
+    arquivo_saida = os.path.join(script_dir, 'database_for_Filter.csv')
     
     print(f"📁 Script em: {script_dir}")
     print(f"📁 Pasta Connectores: {caminho_pasta}")
